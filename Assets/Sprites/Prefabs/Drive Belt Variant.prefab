@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Drive Belt Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7465244526868905129, guid: c5f42e068ab964749bf0ee090a2934e2, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 372396954, guid: 1b7c9caf205dccd4c8e47e93939d803b, type: 3}
     - target: {fileID: 8662367707387813798, guid: c5f42e068ab964749bf0ee090a2934e2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
