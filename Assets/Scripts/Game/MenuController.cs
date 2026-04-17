@@ -13,9 +13,14 @@ public class MenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current.tabKey.wasPressedThisFrame)
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
+            if (!menuCanvas.activeSelf && PauseController.isGamePaused)
+            {
+                return;
+            }
             menuCanvas.SetActive(!menuCanvas.activeSelf);
+            PauseController.SetPause(menuCanvas.activeSelf);
         }
     }
 }
