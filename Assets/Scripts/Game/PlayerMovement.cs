@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PauseController.isGamePaused)
+        if (PauseController.IsGamePaused)
         {
             rb.linearVelocity = Vector2.zero; // Stop movement when the game is paused
             animator.SetBool("IsWalking", false);
@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
         moveInput = context.ReadValue<Vector2>();
+        
         animator.SetFloat("InputX", moveInput.x);
         animator.SetFloat("InputY", moveInput.y);
     }

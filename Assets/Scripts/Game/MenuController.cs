@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class MenuController : MonoBehaviour
 {
@@ -15,7 +14,7 @@ public class MenuController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (!menuCanvas.activeSelf && PauseController.isGamePaused)
+            if (!menuCanvas.activeSelf && PauseController.IsGamePaused)
             {
                 return;
             }
