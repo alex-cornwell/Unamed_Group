@@ -64,7 +64,11 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
+<<<<<<< Updated upstream
     filterMode: 0
+=======
+    filterMode: 1
+>>>>>>> Stashed changes
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -78,7 +82,11 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
+<<<<<<< Updated upstream
   spritePixelsToUnits: 16
+=======
+  spritePixelsToUnits: 100
+>>>>>>> Stashed changes
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -102,7 +110,11 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
+<<<<<<< Updated upstream
     textureCompression: 0
+=======
+    textureCompression: 1
+>>>>>>> Stashed changes
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -123,6 +135,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+<<<<<<< Updated upstream
   - serializedVersion: 4
     buildTarget: WebGL
     maxTextureSize: 2048
@@ -136,6 +149,8 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+=======
+>>>>>>> Stashed changes
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -143,12 +158,21 @@ TextureImporter:
       name: kiele-sheet_0
       rect:
         serializedVersion: 2
+<<<<<<< Updated upstream
         x: 7
         y: 0
         width: 22
         height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+=======
+        x: 6
+        y: 0
+        width: 24
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+>>>>>>> Stashed changes
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -165,12 +189,21 @@ TextureImporter:
       name: kiele-sheet_1
       rect:
         serializedVersion: 2
+<<<<<<< Updated upstream
         x: 39
         y: 0
         width: 22
         height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+=======
+        x: 38
+        y: 0
+        width: 24
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+>>>>>>> Stashed changes
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -187,12 +220,21 @@ TextureImporter:
       name: kiele-sheet_2
       rect:
         serializedVersion: 2
+<<<<<<< Updated upstream
         x: 70
         y: 0
         width: 22
         height: 28
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+=======
+        x: 69
+        y: 0
+        width: 24
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+>>>>>>> Stashed changes
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -209,12 +251,21 @@ TextureImporter:
       name: kiele-sheet_3
       rect:
         serializedVersion: 2
+<<<<<<< Updated upstream
         x: 104
         y: 0
         width: 22
         height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+=======
+        x: 102
+        y: 0
+        width: 25
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+>>>>>>> Stashed changes
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -231,12 +282,21 @@ TextureImporter:
       name: kiele-sheet_4
       rect:
         serializedVersion: 2
+<<<<<<< Updated upstream
         x: 135
         y: 0
         width: 22
         height: 29
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+=======
+        x: 134
+        y: 0
+        width: 24
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+>>>>>>> Stashed changes
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -253,12 +313,21 @@ TextureImporter:
       name: kiele-sheet_5
       rect:
         serializedVersion: 2
+<<<<<<< Updated upstream
         x: 163
         y: 0
         width: 22
         height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+=======
+        x: 162
+        y: 0
+        width: 24
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+>>>>>>> Stashed changes
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -275,12 +344,21 @@ TextureImporter:
       name: kiele-sheet_6
       rect:
         serializedVersion: 2
+<<<<<<< Updated upstream
         x: 195
         y: 0
         width: 22
         height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+=======
+        x: 194
+        y: 0
+        width: 24
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+>>>>>>> Stashed changes
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -297,12 +375,21 @@ TextureImporter:
       name: kiele-sheet_7
       rect:
         serializedVersion: 2
+<<<<<<< Updated upstream
         x: 229
         y: 0
         width: 21
         height: 28
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+=======
+        x: 227
+        y: 0
+        width: 24
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+>>>>>>> Stashed changes
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -319,12 +406,21 @@ TextureImporter:
       name: kiele-sheet_8
       rect:
         serializedVersion: 2
+<<<<<<< Updated upstream
         x: 258
         y: 0
         width: 23
         height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+=======
+        x: 257
+        y: 0
+        width: 25
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+>>>>>>> Stashed changes
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -341,12 +437,21 @@ TextureImporter:
       name: kiele-sheet_9
       rect:
         serializedVersion: 2
+<<<<<<< Updated upstream
         x: 291
         y: 0
         width: 22
         height: 29
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+=======
+        x: 290
+        y: 0
+        width: 24
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+>>>>>>> Stashed changes
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -363,7 +468,11 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
+<<<<<<< Updated upstream
     spriteID: be90de4ae5ca7014e80999a70353a705
+=======
+    spriteID: 
+>>>>>>> Stashed changes
     internalID: 0
     vertices: []
     indices: 
