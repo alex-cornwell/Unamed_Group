@@ -7,6 +7,9 @@ public class ItemDragHandlerr : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     CanvasGroup canvasGroup;
     Canvas rootCanvas;
 
+    public float minDropDistance = 2f; // Minimum distance from the original slot to allow dropping
+    public float maxDropDistance = 3f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -65,9 +68,42 @@ public class ItemDragHandlerr : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         }
         else
         {
+            if(!IsWithinInventory(eventData.position))
+            {
+                DropItem(originalSlot);
+            }
+            else
+            {
+                originalSlot.currentItem = null; //clear the original slot if we are dropping back into the inventory
+            }
             transform.SetParent(originalParent); //if not dropped on a slot, return to original position
         }
 
         GetComponent<RectTransform>().anchoredPosition = Vector2.zero; //reset position to ensure it snaps back to the slot
+    }
+
+    bool IsWithinInventory(Vector2 mousePosition)
+    {
+        RectTransform inventoryRect = originalParent.parent.GetComponent<RectTransform>();
+        return RectTransformUtility.RectangleContainsScreenPoint(inventoryRect, mousePosition);
+    }
+
+    void DropItem(Slot originalSlot)
+    {
+        originalSlot.currentItem = null; //clear the original slot
+        Transform playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform; //get player position
+        if(playerTransform == null)
+        {
+            Debug.LogError("Missing 'Player' tag");
+            return;
+        }
+        
+        Vector2 dropOffset = Random.insideUnitCircle * Random.Range(minDropDistance, maxDropDistance); //randomize drop position within a circle
+        Vector3 dropPosition = (Vector2)playerTransform.position + dropOffset; //calculate drop position
+
+        GameObject dropItem =Instantiate(gameObject, dropPosition, Quaternion.identity); //spawn the item in the world
+        dropItem.GetComponent<BounceEffect>().StartBounce();
+
+        Destroy(gameObject); //destroy the dragged item from the inventory
     }
 }

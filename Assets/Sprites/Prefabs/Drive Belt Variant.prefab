@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2680170718536858058, guid: c5f42e068ab964749bf0ee090a2934e2, type: 3}
+      propertyPath: bounceCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2680170718536858058, guid: c5f42e068ab964749bf0ee090a2934e2, type: 3}
+      propertyPath: bounceHeight
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: -2680170718536858058, guid: c5f42e068ab964749bf0ee090a2934e2, type: 3}
+      propertyPath: bounceDuration
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 1004137262936113393, guid: c5f42e068ab964749bf0ee090a2934e2, type: 3}
       propertyPath: m_Sprite
       value: 
