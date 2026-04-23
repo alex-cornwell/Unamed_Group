@@ -59,7 +59,6 @@ public class PlayerMovement : MonoBehaviour
     { 
         playingfootsteps = true;
         InvokeRepeating(nameof(PlayFootstep), 0f, footstepSpeed);
-        SoundEffectManager.Play("Footstep");
     }
 
     void StopFootsteps()

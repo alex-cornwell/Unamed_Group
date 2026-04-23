@@ -15,6 +15,8 @@ public class InteractionDetector : MonoBehaviour
     {
         if (context.performed)
         {
+            if (interactableInRange == null) return; 
+
             interactableInRange?.Interact(); //call the Interact method on the interactable object if it's in range
             if(!interactableInRange.CanInteract())
             {

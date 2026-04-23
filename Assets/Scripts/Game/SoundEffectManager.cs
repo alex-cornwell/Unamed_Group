@@ -20,7 +20,7 @@ public class SoundEffectManager : MonoBehaviour
             Instance = this;
             AudioSource[] audioSources = GetComponents<AudioSource>();
             audioSource = audioSources[0];
-             randomPitchAudioSource = audioSources[1];
+            randomPitchAudioSource = audioSources[1];
             voiceAudioSource = audioSources[2];
             soundEffectLibrary = GetComponent<SoundEffectLibrary>();
             //DontDestroyOnLoad(gameObject);
@@ -38,7 +38,7 @@ public class SoundEffectManager : MonoBehaviour
         {
             if (randomPitch)
             {
-                randomPitchAudioSource.pitch = Random.Range(1f, 1.5f);
+                randomPitchAudioSource.pitch = Random.Range(0.5f, 1.5f);
                 randomPitchAudioSource.PlayOneShot(audioClip);
             }
             else
