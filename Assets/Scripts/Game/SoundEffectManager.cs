@@ -71,9 +71,4 @@ public class SoundEffectManager : MonoBehaviour
     {
         SetVolume(sfxSlider.value);
     }
-
-    internal static AudioClip GetClipDebug(string v)
-    {
-        throw new System.NotImplementedException();
-    }
 }
