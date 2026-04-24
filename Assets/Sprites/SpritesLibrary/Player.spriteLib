@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrarySourceAsset
+  m_Library:
+  - m_Name: Idle
+    m_Hash: 1008081451
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: kiele-sheet_1
+      m_Hash: 375529902
+      m_Sprite: {fileID: -431381840997078229, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -431381840997078229, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_2
+      m_Hash: 258699284
+      m_Sprite: {fileID: 8771744813459262842, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 8771744813459262842, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_3
+      m_Hash: 946618498
+      m_Sprite: {fileID: -8245261617994424160, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -8245261617994424160, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_0
+      m_Hash: 560271672
+      m_Sprite: {fileID: 3253021481161941038, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 3253021481161941038, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 4
+  - m_Name: Walk
+    m_Hash: 765711723
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: kiele-sheet_0
+      m_Hash: 560271672
+      m_Sprite: {fileID: 3253021481161941038, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 3253021481161941038, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_1
+      m_Hash: 375529902
+      m_Sprite: {fileID: -431381840997078229, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -431381840997078229, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_2
+      m_Hash: 258699284
+      m_Sprite: {fileID: 8771744813459262842, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 8771744813459262842, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_3
+      m_Hash: 946618498
+      m_Sprite: {fileID: -8245261617994424160, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -8245261617994424160, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_4
+      m_Hash: 638113057
+      m_Sprite: {fileID: -9015994351500822759, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -9015994351500822759, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_5
+      m_Hash: 286254519
+      m_Sprite: {fileID: 340318795934298628, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 340318795934298628, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_6
+      m_Hash: 134657037
+      m_Sprite: {fileID: 4373721555534608842, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 4373721555534608842, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_7
+      m_Hash: 1057064091
+      m_Sprite: {fileID: 1773227889203991678, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1773227889203991678, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_8
+      m_Hash: 801020170
+      m_Sprite: {fileID: 3504737545411989808, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 3504737545411989808, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_9
+      m_Hash: 414820764
+      m_Sprite: {fileID: -2463024895992000491, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -2463024895992000491, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_10
+      m_Hash: 86193135
+      m_Sprite: {fileID: 1955962161, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1955962161, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_11
+      m_Hash: 841220985
+      m_Sprite: {fileID: -1333536648, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1333536648, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_12
+      m_Hash: 724390595
+      m_Sprite: {fileID: 1912053413, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1912053413, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_13
+      m_Hash: 472539733
+      m_Sprite: {fileID: -1887047112, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1887047112, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_14
+      m_Hash: 38729718
+      m_Sprite: {fileID: -1535866948, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1535866948, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    - m_Name: kiele-sheet_15
+      m_Hash: 894027616
+      m_Sprite: {fileID: 536622241, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 536622241, guid: 122d3bd3b7cfb0040bb6fb54d0dcd7e0, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 16
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 639125614300350920
+  m_Version: 1

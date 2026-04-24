@@ -22,6 +22,8 @@ public class PlayerItemCollector : MonoBehaviour
                 
                 if (itemAdded)
                 {
+                    Sprite icon = collision.GetComponent<UnityEngine.UI.Image>()?.sprite;
+                    ItemPickupUIController.Instance?.ShowItemPickup(item.Name, icon);
                     item.Pickup();
                     Destroy(collision.gameObject);
                 }

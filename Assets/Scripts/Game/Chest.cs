@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using UnityEngine;
 
 public class Chest : MonoBehaviour, IInteractable

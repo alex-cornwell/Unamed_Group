@@ -23,12 +23,12 @@ public class PlayerMovement : MonoBehaviour
         if (PauseController.IsGamePaused)
         {
             rb.linearVelocity = Vector2.zero; // Stop movement when the game is paused
-            animator.SetBool("IsWalking", false);
+            animator.SetBool("isWalking", false);
             StopFootsteps();
             return;
         }
         rb.linearVelocity = moveInput * moveSpeed;
-        animator.SetBool("IsWalking", rb.linearVelocity.magnitude > 0);
+        animator.SetBool("isWalking", rb.linearVelocity.magnitude > 0);
 
         if (rb.linearVelocity.magnitude > 0 && !playingfootsteps)
         {
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.canceled)
         {
-            animator.SetBool("IsWalking", false);
+            animator.SetBool("isWalking", false);
             animator.SetFloat("LastInputX", moveInput.x);
             animator.SetFloat("LastInputY", moveInput.y);
         }
