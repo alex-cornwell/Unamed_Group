@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 6360951099559158527}
   - component: {fileID: 1004137262936113393}
   - component: {fileID: 5961403000862909827}
-  - component: {fileID: 3689679459227835572}
+  - component: {fileID: 5403979949396353582}
+  - component: {fileID: -1562214650208684373}
   - component: {fileID: 8079853089005530380}
   - component: {fileID: -2680170718536858058}
   - component: {fileID: 7465244526868905129}
@@ -93,7 +94,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &3689679459227835572
+--- !u!114 &5403979949396353582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,9 +105,24 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8157d64eb76d1a144af1d41f857a3624, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDragHandlerr
   minDropDistance: 2
   maxDropDistance: 3
+  worldDropPrefab: {fileID: 9145063797798609344, guid: f9bae15d15d35e5418dab216b6c9a82e, type: 3}
+--- !u!114 &-1562214650208684373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3184780325685777465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2fb154a2e14ca64aa589fc524fb8138, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BentoItem
+  attractRadius: 4
+  disappearDelay: 3
 --- !u!114 &8079853089005530380
 MonoBehaviour:
   m_ObjectHideFlags: 0

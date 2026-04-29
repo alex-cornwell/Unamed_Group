@@ -12,22 +12,22 @@ public class PlayerItemCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Item"))
+        if (!collision.CompareTag("Item")) return;
+
+        Item item = collision.GetComponent<Item>();
+        if (item == null) return;
+
+        BentoItem bento = collision.GetComponent<BentoItem>();
+        if (bento != null && (bento.IsBeingEaten || bento.IsPickedUp)) return;
+
+        bool itemAdded = inventoryController.AddItemByID(item.ID); // uses ID not GameObject
+
+        if (itemAdded)
         {
-            Item item = collision.GetComponent<Item>();
-            if (item != null)
-            {
-                // Add item to inventory and destroy the item game object
-                bool itemAdded = inventoryController.AddItem(collision.gameObject);
-                
-                if (itemAdded)
-                {
-                    Sprite icon = collision.GetComponent<UnityEngine.UI.Image>()?.sprite;
-                    ItemPickupUIController.Instance?.ShowItemPickup(item.Name, icon);
-                    item.Pickup();
-                    Destroy(collision.gameObject);
-                }
-            }
+            bento?.MarkAsPickedUp();
+            Sprite icon = collision.GetComponent<SpriteRenderer>()?.sprite;
+            ItemPickupUIController.Instance?.ShowItemPickup(item.Name, icon);
+            Destroy(collision.gameObject);
         }
     }
 

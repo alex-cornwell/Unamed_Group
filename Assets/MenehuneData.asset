@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 050b695d2ac27404dbcc1a795dfdf495, type: 3}
+  m_Name: MenehuneData
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  enemyName: Menehune
+  enemySprite: {fileID: -2880209290445727982, guid: bcacc723c6c92c54c8ba1cfb44e9c304, type: 3}
+  maxHP: 320
+  attack: 8
+  defense: 4
+  level: 3
+  killEXP: 50
+  spareEXP: 30
+  gold: 30
+  minEnemyDamage: 2
+  maxEnemyDamage: 6
+  minPlayerDamage: 25
+  maxPlayerDamage: 45
+  turnDuration: 5
+  introDialogue: '* A mischievous Menehune appears!
+
+    * It eyes your bento hungrily...'
+  attackDialogues:
+  - '* GLITCH BEAST charges its pixels!'
+  - '* It fires a burst of static!'
+  - '* Watch out for the data shards!'
+  idleDialogues:
+  - '* GLITCH BEAST watches you cautiously.'
+  - '* Its form flickers slightly.'
+  - '* GLITCH BEAST tilts its head.'
+  checkDialogue: 'GLITCH BEAST  ATK 8  DEF 4
+
+    * A creature born from corrupted
+    data.
+
+    * It just wants to be understood.'
+  actOptions:
+  - actName: Check
+    mercyGain: 0
+    dialogue: 
+  - actName: Taunt
+    mercyGain: 0
+    dialogue: '* You call it a walking bug report.
+
+      * GLITCH BEAST looks annoyed.'
+  - actName: Compliment
+    mercyGain: 40
+    dialogue: '* You say its glitches look kind of cool.
+
+      * GLITCH BEAST seems...
+      flustered?'
+  currentAttackPattern: {fileID: 0}

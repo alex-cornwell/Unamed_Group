@@ -46,6 +46,28 @@ public class InventoryController : MonoBehaviour
         return false; // Inventory is full
     }
 
+    public bool AddItemByID(int itemID)
+    {
+        GameObject itemPrefab = itemDictionary.GetItemPrefab(itemID);
+        if (itemPrefab == null) return false;
+
+        foreach (Transform slotTransform in inventoryPanel.transform)
+        {
+            Slot slot = slotTransform.GetComponent<Slot>();
+            if (slot != null && slot.currentItem == null)
+            {
+                GameObject newItem = Instantiate(itemPrefab, slotTransform);
+                newItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                newItem.GetComponent<RectTransform>().localScale = Vector3.one;
+                slot.currentItem = newItem;
+                return true;
+            }
+        }
+
+        Debug.Log("Inventory is full!");
+        return false;
+    }
+
     public List<InventorySaveData> GetInventoryItems()
     {
         List<InventorySaveData> invData = new List<InventorySaveData>();
