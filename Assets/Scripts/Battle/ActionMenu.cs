@@ -4,7 +4,7 @@ using TMPro;
 
 public class ActionMenu : MonoBehaviour
 {
-    [Header("Main Menu Buttons")]
+    [Header("Main Menu")]
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private Button fightButton;
     [SerializeField] private Button actButton;
@@ -19,11 +19,11 @@ public class ActionMenu : MonoBehaviour
 
     [Header("ITEM Submenu")]
     [SerializeField] private GameObject itemPanel;
-    [SerializeField] private Button spiderDonutButton;
-    [SerializeField] private Button butterscotchPieButton;
+    [SerializeField] private Button itemDonutButton;
+    [SerializeField] private Button itemButterscotchButton;
     [SerializeField] private Button itemBackButton;
 
-    [Header("Mercy Button Color")]
+    [Header("Mercy")]
     [SerializeField] private TextMeshProUGUI mercyButtonLabel;
     [SerializeField] private Color canSpareColor = Color.yellow;
     [SerializeField] private Color normalColor = Color.white;
@@ -32,19 +32,19 @@ public class ActionMenu : MonoBehaviour
 
     private void Awake()
     {
-        fightButton.onClick.AddListener(()  => BattleManager.Instance.PlayerFight());
-        actButton.onClick.AddListener(()    => ShowActMenu());
-        itemButton.onClick.AddListener(()   => ShowItemMenu());
-        mercyButton.onClick.AddListener(()  => BattleManager.Instance.PlayerMercy());
+        fightButton.onClick.AddListener(() => BattleManager.Instance.PlayerFight());
+        actButton.onClick.AddListener(ShowActMenu);
+        itemButton.onClick.AddListener(ShowItemMenu);
+        mercyButton.onClick.AddListener(() => BattleManager.Instance.PlayerMercy());
 
         actBackButton.onClick.AddListener(ShowMainMenu);
         itemBackButton.onClick.AddListener(ShowMainMenu);
 
-        spiderDonutButton.onClick.AddListener(() =>
-            BattleManager.Instance.PlayerItem(12, "* You eat a Spider Donut.\n* Restored 12 HP!"));
-
-        butterscotchPieButton.onClick.AddListener(() =>
-            BattleManager.Instance.PlayerItem(99, "* You eat Toriel's Butterscotch Pie.\n* HP fully restored!"));
+        // Item submenu buttons
+        itemDonutButton.onClick.AddListener(() =>
+            BattleManager.Instance.UseItem("Spider Donut"));
+        itemButterscotchButton.onClick.AddListener(() =>
+            BattleManager.Instance.UseItem("Butterscotch Pie"));
 
         BattleManager.Instance.OnMercyChanged += UpdateMercyColor;
     }
@@ -57,26 +57,34 @@ public class ActionMenu : MonoBehaviour
 
     private void BuildActButtons()
     {
-        // Clear old buttons
         foreach (Transform child in actButtonParent)
             Destroy(child.gameObject);
 
+        // Standard act options from EnemyData
         foreach (var act in _enemyData.actOptions)
         {
-            var actCopy = act; // capture for lambda
-            GameObject go = Instantiate(actButtonPrefab, actButtonParent);
-            go.GetComponentInChildren<TextMeshProUGUI>().text = actCopy.actName;
-
+            var actCopy = act;
             string dialogue = actCopy.actName == "Check"
                 ? _enemyData.checkDialogue
                 : actCopy.dialogue;
 
+            GameObject go = Instantiate(actButtonPrefab, actButtonParent);
+            go.GetComponentInChildren<TextMeshProUGUI>().text = actCopy.actName;
             go.GetComponent<Button>().onClick.AddListener(() =>
             {
                 ShowMainMenu();
                 BattleManager.Instance.PlayerAct(actCopy.actName, actCopy.mercyGain, dialogue);
             });
         }
+
+        // Trade Bento button — always available in ACT
+        GameObject tradeBtn = Instantiate(actButtonPrefab, actButtonParent);
+        tradeBtn.GetComponentInChildren<TextMeshProUGUI>().text = "Trade Bento";
+        tradeBtn.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            ShowMainMenu();
+            BattleManager.Instance.PlayerTradeBento();
+        });
     }
 
     // -------------------------------------------------------------------------

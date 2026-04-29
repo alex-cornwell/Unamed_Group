@@ -65,7 +65,9 @@ public class SaveController : MonoBehaviour
             GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
             inventoryController.SetInventoryItems(saveData.inventorySaveData);
             hotbarController.SetHotbarItems(saveData.hotbarSaveData);
-            LoadChestStates(saveData.chestSaveData);
+             
+            if (saveData.chestSaveData != null)
+                LoadChestStates(saveData.chestSaveData);
         }
         else
         {

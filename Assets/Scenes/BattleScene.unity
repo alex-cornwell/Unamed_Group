@@ -1149,7 +1149,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: MERCY
+  m_text: SPARE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
@@ -1316,7 +1316,7 @@ GameObject:
   - component: {fileID: 637193845}
   - component: {fileID: 637193844}
   m_Layer: 0
-  m_Name: PlayerHPTrack
+  m_Name: EnemyHPTrack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3104,7 +3104,7 @@ GameObject:
   - component: {fileID: 1341846233}
   - component: {fileID: 1341846232}
   m_Layer: 0
-  m_Name: Compliment
+  m_Name: Trade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3149,7 +3149,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Compliment
+  m_text: 'Trade
 
 '
   m_isRightToLeft: 0
@@ -3243,7 +3243,7 @@ GameObject:
   - component: {fileID: 1372874678}
   - component: {fileID: 1372874677}
   m_Layer: 0
-  m_Name: PlayerHPFill
+  m_Name: EnemyHPFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3866,7 +3866,7 @@ GameObject:
   - component: {fileID: 1767636640}
   - component: {fileID: 1767636639}
   m_Layer: 0
-  m_Name: Act
+  m_Name: Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3911,7 +3911,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ACT
+  m_text: ACTION
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
@@ -4003,7 +4003,7 @@ GameObject:
   - component: {fileID: 1791844140}
   - component: {fileID: 1791844139}
   m_Layer: 0
-  m_Name: ActCompliment
+  m_Name: ActTrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4187,6 +4187,37 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1939308638
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1939308639}
+  m_Layer: 0
+  m_Name: BattleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1939308639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939308638}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1355.9746, y: 674.92725, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1989033066
 GameObject:
   m_ObjectHideFlags: 0
@@ -4200,7 +4231,7 @@ GameObject:
   - component: {fileID: 1989033069}
   - component: {fileID: 1989033068}
   m_Layer: 0
-  m_Name: 'ActButton '
+  m_Name: 'ActionButton '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4525,3 +4556,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 835264865}
   - {fileID: 1827283524}
+  - {fileID: 1939308639}

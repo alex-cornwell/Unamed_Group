@@ -1,17 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+using UnityEngine.SceneManagement;
 
 public enum BattlePhase
 {
-    INTRO,
-    PLAYER_MENU,
-    PLAYER_ACTION,
-    ENEMY_TURN,
-    VICTORY,
-    GAME_OVER
+    INTRO, PLAYER_MENU, PLAYER_ACTION, ENEMY_TURN, VICTORY, GAME_OVER
 }
 
 public class BattleManager : MonoBehaviour
@@ -36,14 +30,15 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private BulletBox bulletBox;
     [SerializeField] private EnemyUI enemyUI;
     [SerializeField] private PlayerStatsUI playerStatsUI;
+    [SerializeField] private BattleInventoryUI battleInventoryUI;
 
-    [Header("Battle Settings")]
-    [SerializeField] private float introDelay = 1.5f;
+    [Header("Battle Canvas")]
+    [SerializeField] private GameObject battleCanvas;
 
     // Events
     public System.Action<BattlePhase> OnPhaseChanged;
-    public System.Action<int, int> OnPlayerHPChanged;   // current, max
-    public System.Action<int, int> OnEnemyHPChanged;    // current, max
+    public System.Action<int, int> OnPlayerHPChanged;
+    public System.Action<int, int> OnEnemyHPChanged;
     public System.Action<int> OnMercyChanged;
 
     private void Awake()
@@ -54,6 +49,16 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
+        // Load enemy from PlayerPrefs
+        string enemyName = PlayerPrefs.GetString("CurrentEnemy", "MenehuneData");
+        enemyData = Resources.Load<EnemyData>($"EnemyData/{enemyName}");
+
+        if (enemyData == null)
+        {
+            Debug.LogError($"EnemyData '{enemyName}' not found in Resources/EnemyData/");
+            return;
+        }
+
         currentEnemyHP = enemyData.maxHP;
         currentPlayerHP = playerMaxHP;
         StartCoroutine(StartBattle());
@@ -68,8 +73,9 @@ public class BattleManager : MonoBehaviour
         SetPhase(BattlePhase.INTRO);
         enemyUI.Initialize(enemyData, currentEnemyHP);
         playerStatsUI.Initialize(playerMaxHP, currentPlayerHP);
+        battleInventoryUI?.LoadInventory();
 
-        yield return new WaitForSeconds(introDelay);
+        yield return new WaitForSeconds(1f);
         yield return dialogueTyper.TypeDialogue(enemyData.introDialogue);
 
         SetPhase(BattlePhase.PLAYER_MENU);
@@ -83,7 +89,7 @@ public class BattleManager : MonoBehaviour
     }
 
     // -------------------------------------------------------------------------
-    // Player Actions (called by ActionMenu buttons)
+    // Player Actions
     // -------------------------------------------------------------------------
 
     public void PlayerFight()
@@ -100,7 +106,7 @@ public class BattleManager : MonoBehaviour
         int damage = Random.Range(enemyData.minPlayerDamage, enemyData.maxPlayerDamage + 1);
         DamageEnemy(damage);
 
-        string msg = $"* You attack with full force!\n* {enemyData.enemyName} takes {damage} damage!";
+        string msg = $"* You strike with full force!\n* {enemyData.enemyName} takes {damage} damage!";
         yield return dialogueTyper.TypeDialogue(msg);
 
         if (currentEnemyHP <= 0) { StartCoroutine(VictoryRoutine(false)); yield break; }
@@ -123,19 +129,89 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(EnemyTurnRoutine());
     }
 
-    public void PlayerItem(int healAmount, string dialogue)
+    // -------------------------------------------------------------------------
+    // BENTO TRADE — ends battle, drops drive belt if leader
+    // -------------------------------------------------------------------------
+
+    public void PlayerTradeBento()
     {
         if (CurrentPhase != BattlePhase.PLAYER_MENU) return;
-        StartCoroutine(ItemRoutine(healAmount, dialogue));
+
+        // Check player has bento in inventory
+        if (!battleInventoryUI.HasItem("Bento"))
+        {
+            StartCoroutine(NoBentoRoutine());
+            return;
+        }
+
+        StartCoroutine(TradeRoutine());
     }
 
-    private IEnumerator ItemRoutine(int healAmount, string dialogue)
+    private IEnumerator NoBentoRoutine()
+    {
+        SetPhase(BattlePhase.PLAYER_ACTION);
+        actionMenu.HideAll();
+        yield return dialogueTyper.TypeDialogue("* You reach for a bento...\n* But you don't have any!");
+        SetPhase(BattlePhase.PLAYER_MENU);
+        actionMenu.ShowMainMenu();
+    }
+
+    private IEnumerator TradeRoutine()
     {
         SetPhase(BattlePhase.PLAYER_ACTION);
         actionMenu.HideAll();
 
-        HealPlayer(healAmount);
-        yield return dialogueTyper.TypeDialogue(dialogue);
+        // Consume bento from inventory
+        battleInventoryUI.ConsumeItem("Bento");
+
+        if (enemyData.isMenehuneLeader)
+        {
+            yield return dialogueTyper.TypeDialogue(
+                $"* You offer the bento to the Menehune leader.\n* His eyes light up!\n* He accepts the offering...\n* The Menehune drop a Drive Belt and leave!");
+            StartCoroutine(VictoryRoutine(true, dropDriveBelt: true));
+        }
+        else
+        {
+            yield return dialogueTyper.TypeDialogue(
+                $"* You offer the bento to the Menehune.\n* It grabs it and scurries away!");
+            StartCoroutine(VictoryRoutine(true, dropDriveBelt: false));
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // ITEM USE — bento heals player
+    // -------------------------------------------------------------------------
+
+    public void UseItem(string itemName)
+    {
+        if (CurrentPhase != BattlePhase.PLAYER_MENU) return;
+        StartCoroutine(UseItemRoutine(itemName));
+    }
+
+    private IEnumerator UseItemRoutine(string itemName)
+    {
+        SetPhase(BattlePhase.PLAYER_ACTION);
+        actionMenu.HideAll();
+
+        if (itemName == "Bento")
+        {
+            if (!battleInventoryUI.HasItem("Bento"))
+            {
+                yield return dialogueTyper.TypeDialogue("* You reach for a bento...\n* But you don't have any!");
+            }
+            else
+            {
+                battleInventoryUI.ConsumeItem("Bento");
+                int healAmount = 8;
+                HealPlayer(healAmount);
+                yield return dialogueTyper.TypeDialogue($"* You eat the bento box.\n* Restored {healAmount} HP!");
+            }
+        }
+        else
+        {
+            yield return dialogueTyper.TypeDialogue($"* You used {itemName}.\n* Nothing happened...");
+        }
+
         StartCoroutine(EnemyTurnRoutine());
     }
 
@@ -150,11 +226,7 @@ public class BattleManager : MonoBehaviour
         SetPhase(BattlePhase.PLAYER_ACTION);
         actionMenu.HideAll();
 
-        if (MercyPercent >= 100)
-        {
-            StartCoroutine(VictoryRoutine(true));
-            yield break;
-        }
+        if (MercyPercent >= 100) { StartCoroutine(VictoryRoutine(true)); yield break; }
 
         AddMercy(20);
         string msg = MercyPercent >= 100
@@ -162,7 +234,6 @@ public class BattleManager : MonoBehaviour
             : $"* You show mercy. ({MercyPercent}% mercy)";
 
         yield return dialogueTyper.TypeDialogue(msg);
-
         if (MercyPercent >= 100) { StartCoroutine(VictoryRoutine(true)); yield break; }
         StartCoroutine(EnemyTurnRoutine());
     }
@@ -186,15 +257,11 @@ public class BattleManager : MonoBehaviour
         bulletBox.EndAttack();
         bulletBox.gameObject.SetActive(false);
 
-        int dmg = Random.Range(enemyData.minEnemyDamage, enemyData.maxEnemyDamage + 1);
-        // Reduce by bullets dodged — BulletBox reports hits separately via TakeDamage()
-
         ReturnToPlayerMenu();
     }
 
     public void TakeDamage(int amount)
     {
-        // Called by BulletBox when a bullet hits the soul
         currentPlayerHP = Mathf.Max(0, currentPlayerHP - amount);
         OnPlayerHPChanged?.Invoke(currentPlayerHP, playerMaxHP);
         playerStatsUI.UpdateHP(currentPlayerHP, playerMaxHP);
@@ -218,18 +285,26 @@ public class BattleManager : MonoBehaviour
     // Victory / Game Over
     // -------------------------------------------------------------------------
 
-    private IEnumerator VictoryRoutine(bool spared)
+    private IEnumerator VictoryRoutine(bool spared, bool dropDriveBelt = false)
     {
         SetPhase(BattlePhase.VICTORY);
         actionMenu.HideAll();
         bulletBox.gameObject.SetActive(false);
 
-        string msg = spared
-            ? $"* ...\n* {enemyData.enemyName} lowers its guard.\n* You spared {enemyData.enemyName}.\n* {enemyData.spareEXP} EXP gained."
-            : $"* {enemyData.enemyName} was defeated!\n* {enemyData.killEXP} EXP  {enemyData.gold} GOLD";
+        if (!spared)
+        {
+            string msg = $"* {enemyData.enemyName} was defeated!\n* {enemyData.killEXP} EXP  {enemyData.gold} GOLD";
+            enemyUI.PlayDeathAnimation(false);
+            yield return dialogueTyper.TypeDialogue(msg);
+        }
 
-        enemyUI.PlayDeathAnimation(spared);
-        yield return dialogueTyper.TypeDialogue(msg);
+        // Save drop belt flag for world scene
+        if (dropDriveBelt)
+            PlayerPrefs.SetInt("DropDriveBelt", 1);
+
+        yield return new WaitForSeconds(1.5f);
+        string returnScene = PlayerPrefs.GetString("ReturnScene", "SampleScene");
+        SceneManager.LoadScene(returnScene);
     }
 
     private IEnumerator GameOverRoutine()
@@ -238,12 +313,14 @@ public class BattleManager : MonoBehaviour
         yield return dialogueTyper.TypeDialogue("* ...\n* YOU DIED\n\n* But it refused.");
         yield return new WaitForSeconds(2f);
 
-        // Determination — revive with 1 HP
         currentPlayerHP = 1;
         OnPlayerHPChanged?.Invoke(currentPlayerHP, playerMaxHP);
         playerStatsUI.UpdateHP(currentPlayerHP, playerMaxHP);
         yield return dialogueTyper.TypeDialogue("* DETERMINATION.\n* You stand back up.");
-        ReturnToPlayerMenu();
+        yield return new WaitForSeconds(1f);
+
+        string returnScene = PlayerPrefs.GetString("ReturnScene", "SampleScene");
+        SceneManager.LoadScene(returnScene);
     }
 
     // -------------------------------------------------------------------------
