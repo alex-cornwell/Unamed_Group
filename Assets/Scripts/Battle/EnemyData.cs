@@ -6,17 +6,14 @@ public class EnemyData : ScriptableObject
     [Header("Identity")]
     public string enemyName = "Menehune";
     public Sprite enemySprite;
-    public bool isMenehuneLeader = false; // if true, trading bento drops drive belt
+    public bool isMenehuneLeader = false;
 
     [Header("Stats")]
     public int maxHP = 80;
-    public int attack = 5;
-    public int defense = 2;
     public int level = 3;
 
     [Header("Rewards")]
     public int killEXP = 30;
-    public int spareEXP = 15;
     public int gold = 10;
 
     [Header("Damage Ranges")]
@@ -24,9 +21,6 @@ public class EnemyData : ScriptableObject
     public int maxEnemyDamage = 6;
     public int minPlayerDamage = 10;
     public int maxPlayerDamage = 20;
-
-    [Header("Timing")]
-    public float turnDuration = 5f;
 
     [Header("Dialogue")]
     [TextArea(2, 4)]
@@ -51,11 +45,17 @@ public class EnemyData : ScriptableObject
 
     [Header("Act Options")]
     public ActOption[] actOptions = {
-        new ActOption { actName = "Check",     mercyGain = 0,  dialogue = "" },
-        new ActOption { actName = "Taunt",      mercyGain = 0,  dialogue = "* You call it tiny.\n* The Menehune looks offended." },
-        new ActOption { actName = "Compliment", mercyGain = 30, dialogue = "* You say it looks mighty for its size.\n* The Menehune seems pleased..." }
+        new ActOption { actName = "Check",      mercyGain = 0,  dialogue = "" },
+        new ActOption { actName = "Taunt",       mercyGain = 0,  dialogue = "* You call it tiny.\n* The Menehune looks offended." },
+        new ActOption { actName = "Compliment",  mercyGain = 30, dialogue = "* You say it looks mighty for its size.\n* The Menehune seems pleased..." }
     };
+}
 
-    [Header("Attack Pattern")]
-    public AttackPattern currentAttackPattern;
+[System.Serializable]
+public class ActOption
+{
+    public string actName;
+    public int mercyGain;
+    [TextArea(2, 3)]
+    public string dialogue;
 }

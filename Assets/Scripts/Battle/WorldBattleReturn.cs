@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Attach this to a GameObject in SampleScene (e.g. GameController)

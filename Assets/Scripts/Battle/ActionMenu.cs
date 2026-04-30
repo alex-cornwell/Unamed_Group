@@ -9,7 +9,7 @@ public class ActionMenu : MonoBehaviour
     [SerializeField] private Button fightButton;
     [SerializeField] private Button actButton;
     [SerializeField] private Button itemButton;
-    [SerializeField] private Button mercyButton;
+    [SerializeField] private Button runButton;      // RUN instead of MERCY
 
     [Header("ACT Submenu")]
     [SerializeField] private GameObject actPanel;
@@ -19,77 +19,63 @@ public class ActionMenu : MonoBehaviour
 
     [Header("ITEM Submenu")]
     [SerializeField] private GameObject itemPanel;
-    [SerializeField] private Button itemDonutButton;
-    [SerializeField] private Button itemButterscotchButton;
     [SerializeField] private Button itemBackButton;
 
-    [Header("Mercy")]
-    [SerializeField] private TextMeshProUGUI mercyButtonLabel;
-    [SerializeField] private Color canSpareColor = Color.yellow;
-    [SerializeField] private Color normalColor = Color.white;
-
-    private EnemyData _enemyData;
-
-    private void Awake()
+    private void Start()
     {
-        fightButton.onClick.AddListener(() => BattleManager.Instance.PlayerFight());
+        fightButton.onClick.AddListener(() =>
+        {
+            if (BattleManager.Instance != null)
+                BattleManager.Instance.PlayerFight();
+        });
+
         actButton.onClick.AddListener(ShowActMenu);
         itemButton.onClick.AddListener(ShowItemMenu);
-        mercyButton.onClick.AddListener(() => BattleManager.Instance.PlayerMercy());
+
+        runButton.onClick.AddListener(() =>
+        {
+            if (BattleManager.Instance != null)
+                BattleManager.Instance.PlayerRun();
+        });
 
         actBackButton.onClick.AddListener(ShowMainMenu);
         itemBackButton.onClick.AddListener(ShowMainMenu);
-
-        // Item submenu buttons
-        itemDonutButton.onClick.AddListener(() =>
-            BattleManager.Instance.UseItem("Spider Donut"));
-        itemButterscotchButton.onClick.AddListener(() =>
-            BattleManager.Instance.UseItem("Butterscotch Pie"));
-
-        BattleManager.Instance.OnMercyChanged += UpdateMercyColor;
     }
 
     public void Initialize(EnemyData data)
     {
-        _enemyData = data;
-        BuildActButtons();
+        BuildActButtons(data);
     }
 
-    private void BuildActButtons()
+    private void BuildActButtons(EnemyData data)
     {
         foreach (Transform child in actButtonParent)
             Destroy(child.gameObject);
 
-        // Standard act options from EnemyData
-        foreach (var act in _enemyData.actOptions)
+        foreach (var act in data.actOptions)
         {
-            var actCopy = act;
-            string dialogue = actCopy.actName == "Check"
-                ? _enemyData.checkDialogue
-                : actCopy.dialogue;
+            var copy = act;
+            string dialogue = copy.actName == "Check" ? data.checkDialogue : copy.dialogue;
 
             GameObject go = Instantiate(actButtonPrefab, actButtonParent);
-            go.GetComponentInChildren<TextMeshProUGUI>().text = actCopy.actName;
+            go.GetComponentInChildren<TextMeshProUGUI>().text = copy.actName;
             go.GetComponent<Button>().onClick.AddListener(() =>
             {
+                if (BattleManager.Instance == null) return;
                 ShowMainMenu();
-                BattleManager.Instance.PlayerAct(actCopy.actName, actCopy.mercyGain, dialogue);
+                BattleManager.Instance.PlayerAct(copy.actName, copy.mercyGain, dialogue);
             });
         }
 
-        // Trade Bento button — always available in ACT
-        GameObject tradeBtn = Instantiate(actButtonPrefab, actButtonParent);
-        tradeBtn.GetComponentInChildren<TextMeshProUGUI>().text = "Trade Bento";
-        tradeBtn.GetComponent<Button>().onClick.AddListener(() =>
+        GameObject trade = Instantiate(actButtonPrefab, actButtonParent);
+        trade.GetComponentInChildren<TextMeshProUGUI>().text = "Trade Bento";
+        trade.GetComponent<Button>().onClick.AddListener(() =>
         {
+            if (BattleManager.Instance == null) return;
             ShowMainMenu();
             BattleManager.Instance.PlayerTradeBento();
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Visibility
-    // -------------------------------------------------------------------------
 
     public void ShowMainMenu()
     {
@@ -103,6 +89,8 @@ public class ActionMenu : MonoBehaviour
         mainMenuPanel.SetActive(false);
         actPanel.SetActive(true);
         itemPanel.SetActive(false);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(actPanel.GetComponent<RectTransform>());
     }
 
     public void ShowItemMenu()
@@ -110,6 +98,8 @@ public class ActionMenu : MonoBehaviour
         mainMenuPanel.SetActive(false);
         actPanel.SetActive(false);
         itemPanel.SetActive(true);
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(itemPanel.GetComponent<RectTransform>());
     }
 
     public void HideAll()
@@ -117,17 +107,5 @@ public class ActionMenu : MonoBehaviour
         mainMenuPanel.SetActive(false);
         actPanel.SetActive(false);
         itemPanel.SetActive(false);
-    }
-
-    private void UpdateMercyColor(int mercyPercent)
-    {
-        if (mercyButtonLabel != null)
-            mercyButtonLabel.color = mercyPercent >= 100 ? canSpareColor : normalColor;
-    }
-
-    private void OnDestroy()
-    {
-        if (BattleManager.Instance != null)
-            BattleManager.Instance.OnMercyChanged -= UpdateMercyColor;
     }
 }
