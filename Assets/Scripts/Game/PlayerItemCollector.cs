@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerItemCollector : MonoBehaviour
 {
     private InventoryController inventoryController;
+    private bool isCollecting = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -12,6 +13,7 @@ public class PlayerItemCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (isCollecting) return; // prevent double trigger
         if (!collision.CompareTag("Item")) return;
 
         Item item = collision.GetComponent<Item>();
@@ -20,7 +22,8 @@ public class PlayerItemCollector : MonoBehaviour
         BentoItem bento = collision.GetComponent<BentoItem>();
         if (bento != null && (bento.IsBeingEaten || bento.IsPickedUp)) return;
 
-        bool itemAdded = inventoryController.AddItemByID(item.ID); // uses ID not GameObject
+        isCollecting = true;
+        bool itemAdded = inventoryController.AddItemByID(item.ID);
 
         if (itemAdded)
         {
@@ -29,6 +32,8 @@ public class PlayerItemCollector : MonoBehaviour
             ItemPickupUIController.Instance?.ShowItemPickup(item.Name, icon);
             Destroy(collision.gameObject);
         }
+        
+        isCollecting = false;
     }
 
 }

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class HotbarController : MonoBehaviour
 {
     public GameObject hotbarPanel;
@@ -10,7 +9,6 @@ public class HotbarController : MonoBehaviour
     public int slotCount = 5;
 
     private ItemDictionary itemDictionary;
-
     private Key[] hotbarKeys;
 
     private void Awake()
@@ -18,80 +16,95 @@ public class HotbarController : MonoBehaviour
         itemDictionary = FindAnyObjectByType<ItemDictionary>();
 
         hotbarKeys = new Key[slotCount];
-        for ( int i = 0; i < slotCount; i++)
-        {
-            hotbarKeys[i] = i < 4 ? Key.Digit1 + i : Key.Digit0; // Assign keys 1-5 and 0 for the hotbar slots
-        }
+        for (int i = 0; i < slotCount; i++)
+            hotbarKeys[i] = i < 4 ? Key.Digit1 + i : Key.Digit0;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        for ( int i = 0; i < slotCount; i++)
+        for (int i = 0; i < slotCount; i++)
         {
             if (Keyboard.current[hotbarKeys[i]].wasPressedThisFrame)
-            {
-                // Use Item
                 UseItemSlot(i);
-            }
         }
     }
 
     void UseItemSlot(int index)
     {
+        if (index >= hotbarPanel.transform.childCount) return;
         Slot slot = hotbarPanel.transform.GetChild(index).GetComponent<Slot>();
-        if (slot.currentItem != null)
+        if (slot?.currentItem != null)
         {
             Item item = slot.currentItem.GetComponent<Item>();
-            //item.UseItem();
+            // item.UseItem();
         }
     }
 
     public List<InventorySaveData> GetHotbarItems()
     {
         List<InventorySaveData> hotbarData = new List<InventorySaveData>();
-
         foreach (Transform slotTransform in hotbarPanel.transform)
         {
             Slot slot = slotTransform.GetComponent<Slot>();
-            if (slot.currentItem != null)
+            if (slot?.currentItem != null)
             {
                 Item item = slot.currentItem.GetComponent<Item>();
-                hotbarData.Add(new InventorySaveData { itemID = item.ID, slotIndex = slotTransform.GetSiblingIndex() });
+                if (item != null)
+                    hotbarData.Add(new InventorySaveData
+                    {
+                        itemID    = item.ID,
+                        slotIndex = slotTransform.GetSiblingIndex()
+                    });
             }
         }
-
         return hotbarData;
     }
 
-    public void SetHotbarItems(List<InventorySaveData> inventorySaveData)
+    public void SetHotbarItems(List<InventorySaveData> hotbarSaveData)
     {
-        // Clear existing items from slots
-        foreach (Transform child in hotbarPanel.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        if (hotbarSaveData == null) hotbarSaveData = new List<InventorySaveData>();
 
-        // Create new slots
-        for (int i = 0; i < slotCount; i++)
-        {
-            Instantiate(slotPrefab, hotbarPanel.transform);
-        }
+        if (itemDictionary == null)
+            itemDictionary = FindAnyObjectByType<ItemDictionary>();
 
-        // Populate slots with saved items
-        foreach (InventorySaveData data in inventorySaveData)
+        // Clear only items from slots — slots are pre-built and never touched
+        foreach (Transform slotTransform in hotbarPanel.transform)
         {
-            if (data.slotIndex < slotCount)
+            Slot slot = slotTransform.GetComponent<Slot>();
+            if (slot != null && slot.currentItem != null)
             {
-                Slot slot = hotbarPanel.transform.GetChild(data.slotIndex).GetComponent<Slot>();
-                GameObject itemPrefab = itemDictionary.GetItemPrefab(data.itemID);
-                if(itemPrefab != null)
-                {
-                    GameObject item = Instantiate(itemPrefab, slot.transform);
-                    item.GetComponent<RectTransform>().anchoredPosition = Vector2.zero; // Center the item in the slot
-                    slot.currentItem = item; // Assign the item to the slot's currentItem variable
-                }
+                SafeDestroy(slot.currentItem);
+                slot.currentItem = null;
             }
         }
+
+        // Populate saved items into pre-built slots
+        foreach (InventorySaveData data in hotbarSaveData)
+        {
+            if (data.slotIndex >= hotbarPanel.transform.childCount) continue;
+            if (itemDictionary == null) return;
+
+            Slot slot = hotbarPanel.transform.GetChild(data.slotIndex).GetComponent<Slot>();
+            if (slot == null) continue;
+
+            GameObject itemPrefab = itemDictionary.GetItemPrefab(data.itemID);
+            if (itemPrefab != null)
+            {
+                GameObject item = Instantiate(itemPrefab, slot.transform);
+                item.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                item.GetComponent<RectTransform>().localScale = Vector3.one;
+                slot.currentItem = item;
+            }
+        }
+    }
+
+    private void SafeDestroy(GameObject obj)
+    {
+        if (obj == null) return;
+#if UNITY_EDITOR
+        DestroyImmediate(obj);
+#else
+        Destroy(obj);
+#endif
     }
 }

@@ -3,17 +3,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// Attach to a panel in BattleScene that shows the player's inventory items
-// during battle so they can be used or traded
-
 public class BattleInventoryUI : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Transform itemSlotParent;  // parent holding item slots
-    [SerializeField] private GameObject battleItemSlotPrefab; // prefab for each item slot
+    [SerializeField] private Transform itemSlotParent;
+    [SerializeField] private GameObject battleItemSlotPrefab;
 
-    // Runtime inventory mirror — loaded from the scene's InventoryController save
     private List<BattleItemEntry> items = new List<BattleItemEntry>();
+    private bool itemsConsumed = false;
 
     [System.Serializable]
     public class BattleItemEntry
@@ -22,22 +19,19 @@ public class BattleInventoryUI : MonoBehaviour
         public int itemID;
         public int quantity;
         public Sprite icon;
+        public int slotIndex;
     }
-
-    // -------------------------------------------------------------------------
-    // Load inventory from saved data
-    // -------------------------------------------------------------------------
 
     public void LoadInventory()
     {
         items.Clear();
+        itemsConsumed = false;
 
-        // Read from PlayerPrefs battle inventory data saved before scene switch
         string json = PlayerPrefs.GetString("BattleInventory", "");
-        if (string.IsNullOrEmpty(json)) return;
+        if (string.IsNullOrEmpty(json)) { RefreshUI(); return; }
 
         BattleInventoryData data = JsonUtility.FromJson<BattleInventoryData>(json);
-        if (data == null || data.entries == null) return;
+        if (data == null || data.entries == null) { RefreshUI(); return; }
 
         items = data.entries;
         RefreshUI();
@@ -45,38 +39,42 @@ public class BattleInventoryUI : MonoBehaviour
 
     private void RefreshUI()
     {
-        // Clear existing slots
         foreach (Transform child in itemSlotParent)
             Destroy(child.gameObject);
 
+        bool hasItems = false;
         foreach (BattleItemEntry entry in items)
         {
             if (entry.quantity <= 0) continue;
+            hasItems = true;
 
             GameObject slot = Instantiate(battleItemSlotPrefab, itemSlotParent);
             TextMeshProUGUI label = slot.GetComponentInChildren<TextMeshProUGUI>();
             if (label != null)
-                label.text = $"{entry.itemName} x{entry.quantity}";
+                label.text = entry.quantity > 1
+                    ? $"{entry.itemName} x{entry.quantity}"
+                    : entry.itemName;
 
-            Image icon = slot.transform.Find("Icon")?.GetComponent<Image>();
-            if (icon != null && entry.icon != null)
-                icon.sprite = entry.icon;
-
-            // Wire use button
             Button useBtn = slot.GetComponentInChildren<Button>();
             string name = entry.itemName;
             useBtn?.onClick.AddListener(() => BattleManager.Instance.UseItem(name));
         }
-    }
 
-    // -------------------------------------------------------------------------
-    // Item checks
-    // -------------------------------------------------------------------------
+        if (!hasItems)
+        {
+            GameObject empty = Instantiate(battleItemSlotPrefab, itemSlotParent);
+            TextMeshProUGUI label = empty.GetComponentInChildren<TextMeshProUGUI>();
+            if (label != null) { label.text = "-- Nothing --"; label.color = Color.gray; }
+            empty.GetComponent<Button>().interactable = false;
+        }
+    }
 
     public bool HasItem(string itemName)
     {
         return items.Exists(e => e.itemName == itemName && e.quantity > 0);
     }
+
+    public bool WereItemsConsumed() => itemsConsumed;
 
     public void ConsumeItem(string itemName)
     {
@@ -84,8 +82,7 @@ public class BattleInventoryUI : MonoBehaviour
         if (entry == null) return;
 
         entry.quantity--;
-
-        // Sync back to PlayerPrefs so world inventory reflects the use
+        itemsConsumed = true;
         SaveInventoryBack();
         RefreshUI();
     }

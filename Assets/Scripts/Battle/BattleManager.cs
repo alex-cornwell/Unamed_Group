@@ -29,6 +29,16 @@ public class BattleManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+
+        AudioListener[] listeners = FindObjectsByType<AudioListener>(FindObjectsSortMode.None);
+        if (listeners.Length > 1)
+        {
+            foreach (var al in listeners)
+            {
+                if (al.gameObject.scene.name == "BattleScene")
+                    al.enabled = false;
+            }
+        }
     }
 
     private void Start()
@@ -36,6 +46,8 @@ public class BattleManager : MonoBehaviour
         string enemyName = PlayerPrefs.GetString("CurrentEnemy", "MenehuneData");
         enemyData = Resources.Load<EnemyData>($"EnemyData/{enemyName}");
         if (enemyData == null) { Debug.LogError($"EnemyData '{enemyName}' not found"); return; }
+
+        enemyData.isMenehuneLeader = PlayerPrefs.GetInt("IsMenehuneLeader", 0) == 1;
 
         currentEnemyHP = enemyData.maxHP;
         currentPlayerHP = playerMaxHP;
@@ -58,7 +70,6 @@ public class BattleManager : MonoBehaviour
 
     public void SetPhase(BattlePhase phase) => CurrentPhase = phase;
 
-    // FIGHT
     public void PlayerFight()
     {
         if (CurrentPhase != BattlePhase.PLAYER_MENU) return;
@@ -76,7 +87,6 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(EnemyTurnRoutine());
     }
 
-    // ACT
     public void PlayerAct(string actName, int mercyGain, string dialogue)
     {
         if (CurrentPhase != BattlePhase.PLAYER_MENU) return;
@@ -91,7 +101,6 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(EnemyTurnRoutine());
     }
 
-    // TRADE BENTO
     public void PlayerTradeBento()
     {
         if (CurrentPhase != BattlePhase.PLAYER_MENU) return;
@@ -120,7 +129,6 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    // USE ITEM
     public void UseItem(string itemName)
     {
         if (CurrentPhase != BattlePhase.PLAYER_MENU) return;
@@ -131,6 +139,7 @@ public class BattleManager : MonoBehaviour
     {
         SetPhase(BattlePhase.PLAYER_ACTION);
         actionMenu.HideAll();
+
         if (itemName == "Bento")
         {
             if (battleInventoryUI == null || !battleInventoryUI.HasItem("Bento"))
@@ -143,13 +152,14 @@ public class BattleManager : MonoBehaviour
                 yield return dialogueTyper.TypeDialogue($"* You eat the bento box.\n* Restored {heal} HP!");
             }
         }
+        else if (itemName == "Drive Belt")
+            yield return dialogueTyper.TypeDialogue("* You hold up the drive belt.\n* It doesn't do much here...");
         else
             yield return dialogueTyper.TypeDialogue($"* You used {itemName}.\n* Nothing happened...");
 
         StartCoroutine(EnemyTurnRoutine());
     }
 
-    // RUN
     public void PlayerRun()
     {
         if (CurrentPhase != BattlePhase.PLAYER_MENU) return;
@@ -162,10 +172,14 @@ public class BattleManager : MonoBehaviour
         actionMenu.HideAll();
         yield return dialogueTyper.TypeDialogue("* You run away!");
         yield return new WaitForSeconds(0.5f);
-        SceneManager.LoadScene(PlayerPrefs.GetString("ReturnScene", "Minigame1"));
+
+        PlayerPrefs.SetInt("BattleWon", 0);
+        PlayerPrefs.SetInt("PlayerRan", 1);
+        PlayerPrefs.Save();
+
+        StartCoroutine(ReturnToWorld(battleWon: false));
     }
 
-    // ENEMY TURN
     private IEnumerator EnemyTurnRoutine()
     {
         SetPhase(BattlePhase.ENEMY_TURN);
@@ -179,7 +193,6 @@ public class BattleManager : MonoBehaviour
         actionMenu.ShowMainMenu();
     }
 
-    // VICTORY / GAME OVER
     private IEnumerator VictoryRoutine(bool spared, bool dropDriveBelt = false)
     {
         SetPhase(BattlePhase.VICTORY);
@@ -187,9 +200,14 @@ public class BattleManager : MonoBehaviour
         enemyUI.PlayDeathAnimation(spared);
         if (!spared)
             yield return dialogueTyper.TypeDialogue($"* {enemyData.enemyName} was defeated!\n* {enemyData.killEXP} EXP  {enemyData.gold} GOLD");
-        if (dropDriveBelt) { PlayerPrefs.SetInt("DropDriveBelt", 1); PlayerPrefs.Save(); }
+
+        PlayerPrefs.SetInt("BattleWon", 1);
+        PlayerPrefs.SetInt("PlayerRan", 0);
+        if (dropDriveBelt) PlayerPrefs.SetInt("DropDriveBelt", 1);
+        PlayerPrefs.Save();
+
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(PlayerPrefs.GetString("ReturnScene", "Minigame1"));
+        StartCoroutine(ReturnToWorld(battleWon: true));
     }
 
     private IEnumerator GameOverRoutine()
@@ -201,10 +219,14 @@ public class BattleManager : MonoBehaviour
         playerStatsUI.UpdateHP(currentPlayerHP, playerMaxHP);
         yield return dialogueTyper.TypeDialogue("* But you refused to give up.");
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene(PlayerPrefs.GetString("ReturnScene", "Minigame1"));
+
+        PlayerPrefs.SetInt("BattleWon", 0);
+        PlayerPrefs.SetInt("PlayerRan", 0);
+        PlayerPrefs.Save();
+
+        StartCoroutine(ReturnToWorld(battleWon: false));
     }
 
-    // HELPERS
     private IEnumerator SimpleDialogue(string msg, bool returnToMenu = false)
     {
         SetPhase(BattlePhase.PLAYER_ACTION);
@@ -231,5 +253,41 @@ public class BattleManager : MonoBehaviour
     {
         currentPlayerHP = Mathf.Min(playerMaxHP, currentPlayerHP + amount);
         playerStatsUI.UpdateHP(currentPlayerHP, playerMaxHP, healAmount: amount);
+    }
+
+    private IEnumerator ReturnToWorld(bool battleWon)
+    {
+        string returnScene = PlayerPrefs.GetString("ReturnScene", "Minigame1");
+
+        bool itemsWereConsumed = battleInventoryUI != null && battleInventoryUI.WereItemsConsumed();
+        PlayerPrefs.SetInt("ItemsConsumed", itemsWereConsumed ? 1 : 0);
+        PlayerPrefs.Save();
+
+        if (SceneManager.GetSceneByName(returnScene).isLoaded)
+        {
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(returnScene));
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                PlayerMovement pm = player.GetComponent<PlayerMovement>();
+                if (pm != null) pm.enabled = true;
+            }
+
+            PauseController.SetPause(false);
+
+            // Find WorldBattleReturn and WAIT for it to fully complete
+            // before unloading BattleScene
+            WorldBattleReturn worldReturn = FindFirstObjectByType<WorldBattleReturn>();
+            if (worldReturn != null)
+                yield return worldReturn.StartCoroutine(worldReturn.HandleReturn(battleWon));
+
+            // NOW safe to unload — inventory has been set
+            yield return SceneManager.UnloadSceneAsync("BattleScene");
+        }
+        else
+        {
+            SceneManager.LoadScene(returnScene);
+        }
     }
 }

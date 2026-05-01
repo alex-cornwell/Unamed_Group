@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,48 +10,67 @@ public class SaveController : MonoBehaviour
     private HotbarController hotbarController;
     private Chest[] chests;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         InitializeComponents();
+
+        if (PlayerPrefs.GetInt("ReturningFromBattle", 0) == 1)
+        {
+            PlayerPrefs.SetInt("ReturningFromBattle", 0);
+            PlayerPrefs.Save();
+            return;
+        }
+
+        // Clear stale battle prefs on fresh start
+        PlayerPrefs.DeleteKey("BattleInventory");
+        PlayerPrefs.DeleteKey("BattleInventoryItems");
+        PlayerPrefs.DeleteKey("BattleHotbarItems");
+        PlayerPrefs.DeleteKey("ItemsConsumed");
+        PlayerPrefs.DeleteKey("PlayerReturnX");
+        PlayerPrefs.DeleteKey("PlayerReturnY");
+        PlayerPrefs.DeleteKey("HasReturnPosition");
+        PlayerPrefs.DeleteKey("MenehuneX");
+        PlayerPrefs.DeleteKey("MenehuneY");
+
         LoadGame();
     }
 
+    void Start() { } // intentionally empty — load happens in Awake
+
     private void InitializeComponents()
     {
-        //saveLocation = Path.Combine(Application.persistentDataPath, "saveData.json");
-        saveLocation = Application.dataPath + "/testData.json";
+        saveLocation = Path.Combine(Application.persistentDataPath, "saveData.json");
         inventoryController = FindFirstObjectByType<InventoryController>();
-        hotbarController = FindFirstObjectByType<HotbarController>();
-        chests = FindObjectsByType<Chest>(FindObjectsSortMode.None);
-
+        hotbarController    = FindFirstObjectByType<HotbarController>();
+        chests              = FindObjectsByType<Chest>(FindObjectsSortMode.None);
     }
 
     public void SaveGame()
     {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null || inventoryController == null || hotbarController == null) return;
+
         SaveData saveData = new SaveData
         {
-            playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,
+            playerPosition    = player.transform.position,
             inventorySaveData = inventoryController.GetInventoryItems(),
-            hotbarSaveData = hotbarController.GetHotbarItems(),
-            chestSaveData = GetChestsState()
+            hotbarSaveData    = hotbarController.GetHotbarItems(),
+            chestSaveData     = GetChestsState()
         };
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
     }
 
-        private List<ChestSaveData> GetChestsState()
+    private List<ChestSaveData> GetChestsState()
     {
         List<ChestSaveData> chestStates = new List<ChestSaveData>();
-
-        foreach(Chest chest in chests)
+        foreach (Chest chest in chests)
         {
-            ChestSaveData chestSaveData = new ChestSaveData
+            chestStates.Add(new ChestSaveData
             {
-                chestID = chest.ChestID,
+                chestID  = chest.ChestID,
                 isOpened = chest.IsOpened
-            };
-            chestStates.Add(chestSaveData);
+            });
         }
         return chestStates;
     }
@@ -62,30 +80,43 @@ public class SaveController : MonoBehaviour
         if (File.Exists(saveLocation))
         {
             SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
-            GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
-            inventoryController.SetInventoryItems(saveData.inventorySaveData);
-            hotbarController.SetHotbarItems(saveData.hotbarSaveData);
-             
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+                player.transform.position = saveData.playerPosition;
+
+            inventoryController?.SetInventoryItems(
+                saveData.inventorySaveData ?? new List<InventorySaveData>());
+            hotbarController?.SetHotbarItems(
+                saveData.hotbarSaveData ?? new List<InventorySaveData>());
+
             if (saveData.chestSaveData != null)
                 LoadChestStates(saveData.chestSaveData);
         }
         else
         {
-            SaveGame();
-            inventoryController.SetInventoryItems(new List<InventorySaveData>());
-            hotbarController.SetHotbarItems(new List<InventorySaveData>());
+            inventoryController?.SetInventoryItems(new List<InventorySaveData>());
+            hotbarController?.SetHotbarItems(new List<InventorySaveData>());
         }
     }
 
     private void LoadChestStates(List<ChestSaveData> chestStates)
     {
-        foreach(Chest chest in chests)
+        foreach (Chest chest in chests)
         {
-            ChestSaveData chestSaveData = chestStates.FirstOrDefault(c => c.chestID == chest.ChestID);
-            if (chestSaveData != null)
-            {
-                chest.SetOpened(chestSaveData.isOpened);
-            }
+            ChestSaveData data = chestStates.FirstOrDefault(c => c.chestID == chest.ChestID);
+            if (data != null)
+                chest.SetOpened(data.isOpened);
+        }
+    }
+
+    [ContextMenu("Clear Save Data")]
+    public void ClearSaveData()
+    {
+        if (File.Exists(saveLocation))
+        {
+            File.Delete(saveLocation);
+            Debug.Log("Save data cleared");
         }
     }
 }
