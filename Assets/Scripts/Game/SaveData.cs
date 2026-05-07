@@ -5,6 +5,15 @@ using UnityEngine;
 public class SaveData
 {
     public Vector3 playerPosition;
-    public List<InventorySaveData> inventorySaveData; 
+    public List<InventorySaveData> inventorySaveData;
     public List<InventorySaveData> hotbarSaveData;
+    public List<ChestSaveData> chestSaveData;
+    public int playerHP = 20; // saved between battles and world
+}
+
+[System.Serializable]
+public class ChestSaveData
+{
+    public string chestID;
+    public bool isOpened;
 }

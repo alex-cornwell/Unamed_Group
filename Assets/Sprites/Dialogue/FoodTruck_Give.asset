@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b587bd6bf3de9b4e83e2fccbd570ead, type: 3}
+  m_Name: FoodTruck_Give
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  npcName: Owner
+  npcPortrait: {fileID: -6276256702147774486, guid: e9d6c6364556e6d4b85f4d61ed9957c8, type: 3}
+  dialogueLines:
+  - Eh, it's getting late so we giving out free bento!
+  - "Here, take one \u2014 on the house!"
+  autoProgressLines: 
+  autoProgressDelay: 1
+  typingSpeed: 0.05
+  voiceSound: {fileID: 8300000, guid: 45b62c0c0e9a5e74a86c57b31f5482ba, type: 3}
+  voicePitch: 1

@@ -9,19 +9,19 @@ using TMPro;
 public class EnemyUI : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Image enemySprite;
+    [SerializeField] private Image           enemySprite;
     [SerializeField] private TextMeshProUGUI nameplate;
-    [SerializeField] private Slider hpSlider;
-    [SerializeField] private Image hpFill;
+    [SerializeField] private Slider          hpSlider;
+    [SerializeField] private Image           hpFill;
     [SerializeField] private TextMeshProUGUI hpText;
 
     [Header("HP Bar Colors")]
-    [SerializeField] private Color hpHighColor   = new Color(0.13f, 0.8f,  0.13f); // green
-    [SerializeField] private Color hpMidColor    = new Color(1f,    0.67f, 0f);    // orange
-    [SerializeField] private Color hpLowColor    = new Color(0.88f, 0.19f, 0.19f); // red
+    [SerializeField] private Color hpHighColor = new Color(0.13f, 0.8f,  0.13f);
+    [SerializeField] private Color hpMidColor  = new Color(1f,    0.67f, 0f);
+    [SerializeField] private Color hpLowColor  = new Color(0.88f, 0.19f, 0.19f);
 
     [Header("Hit Animation")]
-    [SerializeField] private float shakeAmount = 8f;
+    [SerializeField] private float shakeAmount   = 8f;
     [SerializeField] private float shakeDuration = 0.3f;
 
     private Vector3 _originalPos;
@@ -34,17 +34,18 @@ public class EnemyUI : MonoBehaviour
         UpdateHP(currentHP, data.maxHP);
     }
 
-    public void UpdateHP(int current, int max)
+    public void UpdateHP(int current, int max, int damageTaken = 0)
     {
         float pct = (float)current / max;
         hpSlider.value = pct;
-        hpText.text = $"HP {current} / {max}";
+        hpText.text    = $"HP {current} / {max}";
 
-        if      (pct > 0.5f) hpFill.color = hpHighColor;
+        if      (pct > 0.5f)  hpFill.color = hpHighColor;
         else if (pct > 0.25f) hpFill.color = hpMidColor;
         else                  hpFill.color = hpLowColor;
 
-        StartCoroutine(ShakeSprite());
+        if (damageTaken > 0)
+            StartCoroutine(ShakeSprite());
     }
 
     public void PlayDeathAnimation(bool spared)
@@ -68,7 +69,6 @@ public class EnemyUI : MonoBehaviour
 
     private IEnumerator DefeatAnimation()
     {
-        // Flash white then fade out
         enemySprite.color = Color.white;
         yield return new WaitForSeconds(0.1f);
         float t = 0f;
@@ -83,7 +83,6 @@ public class EnemyUI : MonoBehaviour
 
     private IEnumerator SpareAnimation()
     {
-        // Gently fade to white
         float t = 0f;
         while (t < 1f)
         {
@@ -101,9 +100,9 @@ public class EnemyUI : MonoBehaviour
 public class PlayerStatsUI : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private TextMeshProUGUI hpLabel;   // shows "HP XX / XX"
-    [SerializeField] private Slider hpSlider;
-    [SerializeField] private Image hpFill;
+    [SerializeField] private TextMeshProUGUI hpLabel;
+    [SerializeField] private Slider          hpSlider;
+    [SerializeField] private Image           hpFill;
 
     [Header("HP Bar Colors")]
     [SerializeField] private Color hpFullColor = Color.yellow;
@@ -117,14 +116,13 @@ public class PlayerStatsUI : MonoBehaviour
         UpdateHP(currentHP, maxHP);
     }
 
-    public void UpdateHP(int current, int max)
+    public void UpdateHP(int current, int max, int damageTaken = 0, int healAmount = 0)
     {
         float pct = (float)current / max;
         hpSlider.value = pct;
-        hpLabel.text = $"HP {current} / {max}";
-        hpFill.color = pct > lowHPPercent ? hpFullColor : hpLowColor;
+        hpLabel.text   = $"HP {current} / {max}";
+        hpFill.color   = pct > lowHPPercent ? hpFullColor : hpLowColor;
 
-        // Pulse animation when critically low
         if (pct <= lowHPPercent)
             StartCoroutine(PulseHP());
     }

@@ -13,22 +13,17 @@ public class AttackPattern : ScriptableObject
 public class BulletWave
 {
     [Header("Timing")]
-    [Tooltip("Seconds to wait before this wave starts")]
-    public float delayBefore = 0f;
-    [Tooltip("Number of bullets in this wave")]
-    public int count = 1;
-    [Tooltip("Seconds between each bullet in the wave")]
-    public float intervalBetween = 0.2f;
+    public float delayBefore      = 0f;
+    public int   count            = 1;
+    public float intervalBetween  = 0.2f;
 
     [Header("Bullet Properties")]
-    public BulletType type = BulletType.Straight;
-    public SpawnEdge spawnEdge = SpawnEdge.Random;
-    public float speed = 200f;
-    public int damage = 4;
-    [Tooltip("If true, bullet aims directly at the soul's current position")]
-    public bool aimAtSoul = false;
+    public BulletType type      = BulletType.Straight;
+    public SpawnEdge  spawnEdge = SpawnEdge.Random;
+    public float      speed     = 200f;
+    public int        damage    = 4;
+    public bool       aimAtSoul = false;
 
     [Header("Override")]
-    [Tooltip("Leave null to use the BulletBox default prefab for this BulletType")]
     public GameObject overridePrefab;
 }

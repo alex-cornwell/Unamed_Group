@@ -4,68 +4,58 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     [Header("Identity")]
-    public string enemyName = "Glitch Beast";
+    public string enemyName = "Menehune";
     public Sprite enemySprite;
+    public bool isMenehuneLeader = false;
 
     [Header("Stats")]
-    public int maxHP = 320;
-    public int attack = 8;
-    public int defense = 4;
-    public int level = 7;
+    public int maxHP  = 80;
+    public int level  = 3;
 
     [Header("Rewards")]
-    public int killEXP = 50;
-    public int spareEXP = 30;
-    public int gold = 30;
+    public int killEXP = 30;
+    public int gold    = 10;
 
     [Header("Damage Ranges")]
-    public int minEnemyDamage = 4;
-    public int maxEnemyDamage = 10;
-    public int minPlayerDamage = 25;
-    public int maxPlayerDamage = 45;
-
-    [Header("Timing")]
-    [Tooltip("How long the enemy attack phase lasts in seconds")]
-    public float turnDuration = 5f;
+    public int minEnemyDamage  = 2;
+    public int maxEnemyDamage  = 6;
+    public int minPlayerDamage = 10;
+    public int maxPlayerDamage = 20;
 
     [Header("Dialogue")]
     [TextArea(2, 4)]
-    public string introDialogue = "* The GLITCH BEAST blocks your path!\n* Its pixels flicker ominously.";
+    public string introDialogue = "* A mischievous Menehune appears!\n* It eyes your bento hungrily...";
 
     [TextArea(2, 4)]
     public string[] attackDialogues = {
-        "* GLITCH BEAST charges its pixels!",
-        "* It fires a burst of static!",
-        "* Watch out for the data shards!"
+        "* The Menehune hurls a rock!",
+        "* It dashes at you!",
+        "* The Menehune throws a coconut!"
     };
 
     [TextArea(2, 4)]
     public string[] idleDialogues = {
-        "* GLITCH BEAST watches you cautiously.",
-        "* Its form flickers slightly.",
-        "* GLITCH BEAST tilts its head."
+        "* The Menehune watches you carefully.",
+        "* It sniffs the air hungrily.",
+        "* The Menehune taps its foot impatiently."
     };
 
     [TextArea(2, 4)]
-    public string checkDialogue = "GLITCH BEAST  ATK 8  DEF 4\n* A creature born from corrupted data.\n* It just wants to be understood.";
+    public string checkDialogue = "MENEHUNE  ATK 5  DEF 2\n* A small but fierce forest spirit.\n* Loves bento boxes.";
 
     [Header("Act Options")]
     public ActOption[] actOptions = {
-        new ActOption { actName = "Check",      mercyGain = 0,  dialogue = "" }, // set at runtime from checkDialogue
-        new ActOption { actName = "Taunt",       mercyGain = 0,  dialogue = "* You call it a walking bug report.\n* GLITCH BEAST looks annoyed." },
-        new ActOption { actName = "Compliment",  mercyGain = 40, dialogue = "* You say its glitches look kind of cool.\n* GLITCH BEAST seems... flustered?" }
+        new ActOption { actName = "Check",      mercyGain = 0,  dialogue = "" },
+        new ActOption { actName = "Taunt",       mercyGain = 0,  dialogue = "* You call it tiny.\n* The Menehune looks offended." },
+        new ActOption { actName = "Compliment",  mercyGain = 30, dialogue = "* You say it looks mighty for its size.\n* The Menehune seems pleased..." }
     };
-
-    [Header("Attack Pattern")]
-    public AttackPattern currentAttackPattern;
 }
 
 [System.Serializable]
 public class ActOption
 {
     public string actName;
-    [Tooltip("How much this act fills the mercy meter (0-100)")]
-    public int mercyGain;
+    public int    mercyGain;
     [TextArea(2, 3)]
     public string dialogue;
 }

@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 6360951099559158527}
   - component: {fileID: 1004137262936113393}
   - component: {fileID: 5961403000862909827}
-  - component: {fileID: 3689679459227835572}
+  - component: {fileID: 8192960872200791083}
   - component: {fileID: 8079853089005530380}
+  - component: {fileID: 909914450504718212}
+  - component: {fileID: 5078762928433841569}
   - component: {fileID: 7465244526868905129}
   - component: {fileID: -5843563538497375758}
   m_Layer: 5
@@ -70,7 +72,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 81892639, guid: 1b7c9caf205dccd4c8e47e93939d803b, type: 3}
+  m_Sprite: {fileID: -2511517606381089214, guid: a140813389352e54b8eb313241f0dd34, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -92,7 +94,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &3689679459227835572
+--- !u!114 &8192960872200791083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,9 +103,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3184780325685777465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8157d64eb76d1a144af1d41f857a3624, type: 3}
+  m_Script: {fileID: 11500000, guid: f42100c7f15fab045bb39fdfcedd2828, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDragHandlerr
+  minDropDistance: 2
+  maxDropDistance: 3
+  worldDropPrefab: {fileID: 3184780325685777465, guid: 2cb47fc0e362c9d40ae10c1b37c4be80, type: 3}
 --- !u!114 &8079853089005530380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +123,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   ID: 1
   Name: Bento
+--- !u!114 &909914450504718212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3184780325685777465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad3841cbeb7e36043b454084072a2ab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomSpritePicker
+  sprites:
+  - {fileID: -2511517606381089214, guid: a140813389352e54b8eb313241f0dd34, type: 3}
+  - {fileID: 96620648621920381, guid: 9ba1326860adf5a4b8f7a6a189a7bac7, type: 3}
+  - {fileID: -4887281238338740106, guid: 624fffc735d2ee14cb41a3695f3c8094, type: 3}
+--- !u!114 &5078762928433841569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3184780325685777465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a6149c93ba7514e91973524b28b5b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BounceEffect
+  bounceHeight: 0.3
+  bounceDuration: 0.4
+  bounceCount: 2
 --- !u!212 &7465244526868905129
 SpriteRenderer:
   serializedVersion: 2
@@ -167,7 +203,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 81892639, guid: 1b7c9caf205dccd4c8e47e93939d803b, type: 3}
+  m_Sprite: {fileID: -2511517606381089214, guid: a140813389352e54b8eb313241f0dd34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
