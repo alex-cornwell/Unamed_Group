@@ -19,8 +19,8 @@ public class DialogueTyper : MonoBehaviour
 
     private void Update()
     {
-        // Allow player to skip / fast-forward typing with Z or Enter
-        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
+        // Allow player to skip / fast-forward typing with E or left mouse click
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
             _skipRequested = true;
     }
 
@@ -34,7 +34,7 @@ public class DialogueTyper : MonoBehaviour
         _typingCoroutine = StartCoroutine(TypeRoutine(message, () => finished = true));
         yield return new WaitUntil(() => finished);
 
-        // Wait for player to press Z/Enter before continuing
+        // Wait for player to press E or left mouse click before continuing
         yield return WaitForConfirm();
     }
 
@@ -75,11 +75,11 @@ public class DialogueTyper : MonoBehaviour
 
     private IEnumerator WaitForConfirm()
     {
-        // Wait at least one frame so the keydown that triggered skip
+        // Wait at least one frame so the input that triggered skip
         // doesn't immediately confirm
         yield return null;
         yield return new WaitUntil(() =>
-            Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return));
+            Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0));
         cursorBlinker?.SetActive(false);
     }
 

@@ -77,6 +77,9 @@ public class ActionMenu : MonoBehaviour
         mainMenuPanel.SetActive(false);
         actPanel.SetActive(true);
         itemPanel.SetActive(false);
+
+        UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(
+            actPanel.GetComponent<RectTransform>());
     }
 
     public void ShowItemMenu()
@@ -84,6 +87,9 @@ public class ActionMenu : MonoBehaviour
         mainMenuPanel.SetActive(false);
         actPanel.SetActive(false);
         itemPanel.SetActive(true);
+
+        UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(
+            itemPanel.GetComponent<RectTransform>());
     }
 
     public void HideAll()

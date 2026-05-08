@@ -83,7 +83,9 @@ public class SaveController : MonoBehaviour
             inventorySaveData = inventoryController.GetInventoryItems(),
             hotbarSaveData    = hotbarController.GetHotbarItems(),
             chestSaveData     = GetChestsState(),
-            playerHP          = LoadPlayerHP(20)
+            playerHP          = LoadPlayerHP(20),
+            truckToolsGiven   = PlayerPrefs.GetInt("TruckToolsGiven", 0) == 1,
+            truckFixed        = PlayerPrefs.GetInt("TruckFixed", 0) == 1
         };
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
@@ -122,12 +124,18 @@ public class SaveController : MonoBehaviour
                 LoadChestStates(saveData.chestSaveData);
 
             PlayerPrefs.SetInt("PlayerHP", saveData.playerHP > 0 ? saveData.playerHP : 20);
+            PlayerPrefs.SetInt("TruckToolsGiven", saveData.truckToolsGiven ? 1 : 0);
+            PlayerPrefs.SetInt("TruckFixed", saveData.truckFixed ? 1 : 0);
+            PlayerPrefs.Save();
         }
         else
         {
             inventoryController?.SetInventoryItems(new List<InventorySaveData>());
             hotbarController?.SetHotbarItems(new List<InventorySaveData>());
             PlayerPrefs.SetInt("PlayerHP", 20);
+            PlayerPrefs.SetInt("TruckToolsGiven", 0);
+            PlayerPrefs.SetInt("TruckFixed", 0);
+            PlayerPrefs.Save();
         }
     }
 

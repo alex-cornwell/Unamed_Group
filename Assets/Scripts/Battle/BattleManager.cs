@@ -213,8 +213,13 @@ public class BattleManager : MonoBehaviour
                 yield break;
             }
             else
+            {
                 yield return dialogueTyper.TypeDialogue(
                     "* You brandish the hammer!\n* It deals extra damage when you FIGHT!");
+                SetPhase(BattlePhase.PLAYER_MENU);
+                actionMenu.ShowMainMenu();
+                yield break;
+            }
         }
         else if (itemName == "Drill")
         {
@@ -227,8 +232,13 @@ public class BattleManager : MonoBehaviour
                 yield break;
             }
             else
+            {
                 yield return dialogueTyper.TypeDialogue(
                     "* The drill whirs loudly!\n* It deals extra damage when you FIGHT!");
+                SetPhase(BattlePhase.PLAYER_MENU);
+                actionMenu.ShowMainMenu();
+                yield break;
+            }
         }
         else if (itemName == "Drive Belt")
             yield return dialogueTyper.TypeDialogue(
@@ -373,6 +383,11 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator ReturnToWorld(bool battleWon)
     {
+        // Fade out battle music before returning
+        BattleMusicManager.Instance?.FadeOut();
+        yield return new WaitForSeconds(0.85f);
+        MinigameMusicManager.Instance?.Resume();
+
         string returnScene = PlayerPrefs.GetString("ReturnScene", "Minigame1");
 
         bool itemsWereConsumed = battleInventoryUI != null && battleInventoryUI.WereItemsConsumed();

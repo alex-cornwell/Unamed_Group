@@ -9,6 +9,8 @@ public class SaveData
     public List<InventorySaveData> hotbarSaveData;
     public List<ChestSaveData> chestSaveData;
     public int playerHP = 20; // saved between battles and world
+    public bool truckToolsGiven = false;
+    public bool truckFixed      = false;
 }
 
 [System.Serializable]

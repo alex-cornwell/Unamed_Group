@@ -8,6 +8,9 @@ public class EnemyData : ScriptableObject
     public Sprite enemySprite;
     public bool isMenehuneLeader = false;
 
+    [Header("Battle Animation")]
+    public RuntimeAnimatorController battleAnimator; // drag MenehuneIdleAnimator here
+
     [Header("Stats")]
     public int maxHP  = 80;
     public int level  = 3;

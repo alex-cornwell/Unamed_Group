@@ -56,6 +56,7 @@ public class BattleTrigger : MonoBehaviour
         }
 
         PauseController.SetPause(true);
+        MinigameMusicManager.Instance?.Pause();
 
         AsyncOperation load = SceneManager.LoadSceneAsync(battleSceneName, LoadSceneMode.Additive);
         yield return load;
