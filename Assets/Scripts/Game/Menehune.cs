@@ -13,7 +13,8 @@ public class Menehune : MonoBehaviour
     [Header("Bento Detection")]
     public float bentoCheckInterval = 0.5f; // how often to scan for bento
 
-    [Header("Effects")]
+    [Header("Leader")]
+    public bool isLeader = false; // leaders ignore bento and only chase player
     public GameObject disappearEffectPrefab;
     public float disappearDuration = 1f;
 
@@ -130,6 +131,7 @@ public class Menehune : MonoBehaviour
     // Periodically scans for dropped bento in range
     private IEnumerator BentoScanner()
     {
+        if (isLeader) yield break; // leaders never go for bento
         while (true)
         {
             yield return new WaitForSeconds(bentoCheckInterval);

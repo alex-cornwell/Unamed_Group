@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections.Generic;
 
 public class CutsceneManager : MonoBehaviour
 {
@@ -16,9 +17,12 @@ public class CutsceneManager : MonoBehaviour
     [SerializeField] private GameObject continuePrompt;
 
     [Header("Audio")]
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip[] musicLayers;  // all play simultaneously, looped
     [SerializeField] private AudioClip[] typingSounds;
     [SerializeField] private float typingPitch = 1f;
+
+    private List<AudioSource> _musicSources = new List<AudioSource>();
 
     [Header("Settings")]
     [SerializeField] private float fadeDuration   = 0.8f;
@@ -36,8 +40,9 @@ public class CutsceneManager : MonoBehaviour
         public string speaker;
         [TextArea(2, 6)]
         public string dialogue;
+        public AudioClip soundEffect;   // optional one-shot when this scene starts
         public bool fadeInBackground  = true;
-        public bool sameBgAsPrevious  = false; // skip fade if same bg as previous scene
+        public bool sameBgAsPrevious  = false;
         public float holdBeforeDialogue = 0.5f;
     }
 
@@ -52,6 +57,19 @@ public class CutsceneManager : MonoBehaviour
         dialogueBox.SetActive(false);
         if (skipPrompt    != null) skipPrompt.SetActive(true);
         if (continuePrompt != null) continuePrompt.SetActive(false);
+
+        // Start all music layers
+        foreach (AudioClip clip in musicLayers)
+        {
+            if (clip == null) continue;
+            AudioSource src = gameObject.AddComponent<AudioSource>();
+            src.clip        = clip;
+            src.loop        = true;
+            src.playOnAwake = false;
+            src.volume      = 1f;
+            src.Play();
+            _musicSources.Add(src);
+        }
 
         StartCoroutine(PlayCutscene());
     }
@@ -89,6 +107,10 @@ public class CutsceneManager : MonoBehaviour
     {
         CutsceneScene scene = scenes[index];
         canAdvance = false;
+
+        // Play one-shot sound effect for this scene if assigned
+        if (scene.soundEffect != null && sfxSource != null)
+            sfxSource.PlayOneShot(scene.soundEffect);
 
         // Only fade if background is different from previous scene
         if (index == 0)
@@ -160,10 +182,10 @@ public class CutsceneManager : MonoBehaviour
             if (c != ' ' && c != '\n' && typingSounds != null && typingSounds.Length > 0)
             {
                 AudioClip clip = typingSounds[Random.Range(0, typingSounds.Length)];
-                if (clip != null && audioSource != null)
+                if (clip != null && sfxSource != null)
                 {
-                    audioSource.pitch = typingPitch;
-                    audioSource.PlayOneShot(clip, 0.4f);
+                    sfxSource.pitch = typingPitch;
+                    sfxSource.PlayOneShot(clip, 0.4f);
                 }
             }
 

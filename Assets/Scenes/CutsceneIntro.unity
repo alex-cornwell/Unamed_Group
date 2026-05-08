@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 1120921310}
   - component: {fileID: 1120921309}
   - component: {fileID: 1120921308}
+  - component: {fileID: 1120921311}
   m_Layer: 0
   m_Name: CutsceneManager
   m_TagString: Untagged
@@ -390,7 +391,11 @@ MonoBehaviour:
   speakerText: {fileID: 1312382575}
   skipPrompt: {fileID: 1901108574}
   continuePrompt: {fileID: 2065405154}
-  audioSource: {fileID: 1120921308}
+  sfxSource: {fileID: 1120921308}
+  musicLayers:
+  - {fileID: 8300000, guid: f53416c47f5a9c24383bd5786d6c45a4, type: 3}
+  - {fileID: 8300000, guid: 44c15dba6b6c804419df3ad5e37165c2, type: 3}
+  - {fileID: 8300000, guid: 665aed55da90850499114c0a23a61f5c, type: 3}
   typingSounds:
   - {fileID: 8300000, guid: 45b62c0c0e9a5e74a86c57b31f5482ba, type: 3}
   typingPitch: 1
@@ -401,12 +406,14 @@ MonoBehaviour:
   - background: {fileID: 689283645380311244, guid: cd2a3c2553d6afb46b71fd6d4b4ae676, type: 3}
     speaker: 
     dialogue: You may be asking how I ended up in this situation...
+    soundEffect: {fileID: 0}
     fadeInBackground: 1
     sameBgAsPrevious: 0
     holdBeforeDialogue: 1.5
   - background: {fileID: 689283645380311244, guid: cd2a3c2553d6afb46b71fd6d4b4ae676, type: 3}
     speaker: 
     dialogue: let's go back a bit...
+    soundEffect: {fileID: 0}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0
@@ -414,6 +421,7 @@ MonoBehaviour:
     speaker: Kiele
     dialogue: I needed a break from the bustling of O'ahu and school so I decided
       to go out for one drive.
+    soundEffect: {fileID: 8300000, guid: 7ecaf8c50a32e44459730a9ef6416d24, type: 3}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.5
@@ -421,30 +429,35 @@ MonoBehaviour:
     speaker: Kiele
     dialogue: I felt an overwhelming feeling of relief... but there is always a calm
       before the storm.
+    soundEffect: {fileID: 8300000, guid: faef016bceceb2545b5e32106d47c9a0, type: 3}
     fadeInBackground: 1
     sameBgAsPrevious: 0
     holdBeforeDialogue: 1
   - background: {fileID: 6517977392564146968, guid: 4c5c0be9722db374eb97f59d8e41afae, type: 3}
     speaker: Kiele
     dialogue: Hey aunty, you ok?
+    soundEffect: {fileID: 8300000, guid: faef016bceceb2545b5e32106d47c9a0, type: 3}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.3
   - background: {fileID: 6517977392564146968, guid: 4c5c0be9722db374eb97f59d8e41afae, type: 3}
     speaker: ???
     dialogue: Hsgdjagydas
+    soundEffect: {fileID: 0}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.3
   - background: {fileID: 6517977392564146968, guid: 4c5c0be9722db374eb97f59d8e41afae, type: 3}
     speaker: Kiele
     dialogue: Sorry let me turn my engine off... *click* One more time aunty.
+    soundEffect: {fileID: 0}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.3
   - background: {fileID: -948796020722970453, guid: 4d3bd7d6b2fb1134aa1a5b35b3a035b6, type: 3}
     speaker: ???
     dialogue: Hi honey, can you give aunty one ride?
+    soundEffect: {fileID: 0}
     fadeInBackground: 1
     sameBgAsPrevious: 0
     holdBeforeDialogue: 0.8
@@ -452,6 +465,7 @@ MonoBehaviour:
     speaker: 
     dialogue: <i>Shit am I screwed? This is the Pele from Unko's story... if I leave
       her she will curse me?!</i>
+    soundEffect: {fileID: 0}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.3
@@ -459,6 +473,7 @@ MonoBehaviour:
     speaker: Kiele
     dialogue: Yeah aunty come jump in the back. Don't mind the mess I just came from
       the beach.
+    soundEffect: {fileID: 0}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.3
@@ -466,6 +481,7 @@ MonoBehaviour:
     speaker: 
     dialogue: <i>Let's just help her, yeah? I just have to help her get home then
       I can go home.</i>
+    soundEffect: {fileID: 8300000, guid: 7ecaf8c50a32e44459730a9ef6416d24, type: 3}
     fadeInBackground: 1
     sameBgAsPrevious: 0
     holdBeforeDialogue: 0.3
@@ -473,24 +489,28 @@ MonoBehaviour:
     speaker: 
     dialogue: <i>Man, why does this always happen to me. I just bombed my midterm...
       Hopefully mom doesn't beat me up for coming home late.</i>
+    soundEffect: {fileID: 8300000, guid: 61562d5e06eda504893544ef52c97eb7, type: 3}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.3
   - background: {fileID: -7758879738629586043, guid: 6f426a7370b2afd4fb83ca02e0884fba, type: 3}
     speaker: Kiele
     dialogue: Aunty where we going?
+    soundEffect: {fileID: 0}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.5
   - background: {fileID: -7758879738629586043, guid: 6f426a7370b2afd4fb83ca02e0884fba, type: 3}
     speaker: Pele
     dialogue: "...Waim\u0101nalo"
+    soundEffect: {fileID: 0}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 1
   - background: {fileID: 4369572136041557648, guid: 5af118d122b39614d9d19b9a6804d9a1, type: 3}
     speaker: 
     dialogue: 'PART 1: Waimanalo  Town'
+    soundEffect: {fileID: 0}
     fadeInBackground: 1
     sameBgAsPrevious: 0
     holdBeforeDialogue: 0.3
@@ -498,30 +518,35 @@ MonoBehaviour:
     speaker: 
     dialogue: "<i>This isn\u2019t that bad I mean it's only a little bit ahead and
       then I can go home.</i>"
+    soundEffect: {fileID: 0}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.3
   - background: {fileID: 4369572136041557648, guid: 5af118d122b39614d9d19b9a6804d9a1, type: 3}
     speaker: 
     dialogue: '*car breaks down*'
+    soundEffect: {fileID: 0}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.3
   - background: {fileID: 4369572136041557648, guid: 5af118d122b39614d9d19b9a6804d9a1, type: 3}
     speaker: Kiele
     dialogue: ...what?!... NO!
+    soundEffect: {fileID: 8300000, guid: 592a25f688459b045a1ac1c710fc7c35, type: 3}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.3
   - background: {fileID: 4369572136041557648, guid: 5af118d122b39614d9d19b9a6804d9a1, type: 3}
     speaker: Pele
     dialogue: Something wrong?
+    soundEffect: {fileID: 0}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.3
   - background: {fileID: 4369572136041557648, guid: 5af118d122b39614d9d19b9a6804d9a1, type: 3}
     speaker: Kiele
     dialogue: Sorry Aunty Let me check
+    soundEffect: {fileID: 8300000, guid: 0570091a3a9f5274299185048ab790ba, type: 3}
     fadeInBackground: 0
     sameBgAsPrevious: 1
     holdBeforeDialogue: 0.3
@@ -540,6 +565,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1120921311
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120921307}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1312382572
 GameObject:
   m_ObjectHideFlags: 0

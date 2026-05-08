@@ -252,18 +252,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 854795940}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ef42656e6f5af74bb1a4c3e2b01d404, type: 3}
+  m_Script: {fileID: 11500000, guid: dbc9e3b814a62d2409ac953caa03a9b6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MusicManager
-  sceneMusics:
-  - sceneName: 
-    layers: []
-    volumes: []
-  battleMusic:
-    sceneName: 
-    layers: []
-    volumes: []
-  fadeSpeed: 1.5
+  m_EditorClassIdentifier: Assembly-CSharp::MinigameMusicManager
+  layers:
+  - {fileID: 8300000, guid: c404d4a97dfbc6d4da605496b0cfe52e, type: 3}
+  - {fileID: 8300000, guid: 3c408d680e5e7014183859324d3ad55c, type: 3}
+  - {fileID: 8300000, guid: 44c15dba6b6c804419df3ad5e37165c2, type: 3}
+  - {fileID: 8300000, guid: 665aed55da90850499114c0a23a61f5c, type: 3}
+  targetVolume: 0.8
+  fadeInDuration: 1
+  fadeOutDuration: 0.8
 --- !u!1 &1017527675
 GameObject:
   m_ObjectHideFlags: 0
